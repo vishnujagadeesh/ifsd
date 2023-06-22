@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Party Politician CRUD</title>
+  </head>
+  <body>
+    <h2>Party Politician CRUD</h2>
+    <form id="partyPoliticianForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required />
+
+      <label for="maxVote">Max Vote:</label>
+      <input type="number" id="maxVote" required />
+
+      <label for="maxMoney">Max Money:</label>
+      <input type="number" id="maxMoney" required />
+
+      <button type="submit">Add Party Politician</button>
+    </form>
+
+    <table id="partyPoliticianTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Max Vote</th>
+          <th>Max Money</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      // Function to handle form submission
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        // Get form input values
+        const nameInput = document.getElementById('name');
+        const maxVoteInput = document.getElementById('maxVote');
+        const maxMoneyInput = document.getElementById('maxMoney');
+
+        const name = nameInput.value;
+        const maxVote = parseInt(maxVoteInput.value);
+        const maxMoney = parseInt(maxMoneyInput.value);
+
+        // Create a new row in the table
+        const tableBody = document.querySelector('#partyPoliticianTable tbody');
+        const newRow = tableBody.insertRow();
+
+        const nameCell = newRow.insertCell();
+        const maxVoteCell = newRow.insertCell();
+        const maxMoneyCell = newRow.insertCell();
+        const actionsCell = newRow.insertCell();
+
+        nameCell.textContent = name;
+        maxVoteCell.textContent = maxVote;
+        maxMoneyCell.textContent = maxMoney;
+        actionsCell.innerHTML = `
+          <button onclick="editPartyPolitician(this)">Edit</button>
+          <button onclick="deletePartyPolitician(this)">Delete</button>
+        `;
+
+        // Clear form inputs
+        nameInput.value = '';
+        maxVoteInput.value = '';
+        maxMoneyInput.value = '';
+      }
+
+      // Function to edit a party-politician
+      function editPartyPolitician(button) {
+        const row = button.parentNode.parentNode;
+        const nameCell = row.cells[0];
+        const maxVoteCell = row.cells[1];
+        const maxMoneyCell = row.cells[2];
+
+        const name = nameCell.textContent;
+        const maxVote = parseInt(maxVoteCell.textContent);
+        const maxMoney = parseInt(maxMoneyCell.textContent);
+
+        const nameInput = document.getElementById('name');
+        const maxVoteInput = document.getElementById('maxVote');
+        const maxMoneyInput = document.getElementById('maxMoney');
+
+        nameInput.value = name;
+        maxVoteInput.value = maxVote;
+        maxMoneyInput.value = maxMoney;
+
+        // Remove the row from the table
+        row.remove();
+      }
+
+      // Function to delete a party-politician
+      function deletePartyPolitician(button) {
+        const row = button.parentNode.parentNode;
+        row.remove();
+      }
+
+      // Add form submission event listener
+      const partyPoliticianForm = document.getElementById('partyPoliticianForm');
+      partyPoliticianForm.addEventListener('submit', handleSubmit);
+    </script>
+  </body>
+</html>
